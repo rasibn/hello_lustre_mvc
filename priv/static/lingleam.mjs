@@ -2609,30 +2609,6 @@ function start2(app, selector, flags) {
   );
 }
 
-// build/dev/javascript/lustre/lustre/element/html.mjs
-function div(attrs, children2) {
-  return element("div", attrs, children2);
-}
-function p(attrs, children2) {
-  return element("p", attrs, children2);
-}
-function img(attrs) {
-  return element("img", attrs, toList([]));
-}
-function button(attrs, children2) {
-  return element("button", attrs, children2);
-}
-
-// build/dev/javascript/lustre/lustre/event.mjs
-function on2(name, handler) {
-  return on(name, handler);
-}
-function on_click(msg) {
-  return on2("click", (_) => {
-    return new Ok(msg);
-  });
-}
-
 // build/dev/javascript/gleam_stdlib/gleam/uri.mjs
 var Uri = class extends CustomType {
   constructor(scheme, userinfo, host, port, path, query, fragment) {
@@ -3237,7 +3213,7 @@ function expect_json(decoder, to_msg) {
   );
 }
 
-// build/dev/javascript/hello_lustre/hello_lustre.mjs
+// build/dev/javascript/lingleam/webdata.mjs
 var Some2 = class extends CustomType {
   constructor(x0) {
     super();
@@ -3245,23 +3221,6 @@ var Some2 = class extends CustomType {
   }
 };
 var Loading = class extends CustomType {
-  constructor(x0) {
-    super();
-    this[0] = x0;
-  }
-};
-var Model2 = class extends CustomType {
-  constructor(count, cats) {
-    super();
-    this.count = count;
-    this.cats = cats;
-  }
-};
-var UserIncrementedCount = class extends CustomType {
-};
-var UserDecrementedCount = class extends CustomType {
-};
-var ApiReturnedCat = class extends CustomType {
   constructor(x0) {
     super();
     this[0] = x0;
@@ -3285,6 +3244,25 @@ function unwrap3(web_data) {
     return thing;
   }
 }
+
+// build/dev/javascript/lingleam/model_controller.mjs
+var Model2 = class extends CustomType {
+  constructor(count, cats) {
+    super();
+    this.count = count;
+    this.cats = cats;
+  }
+};
+var UserIncrementedCount = class extends CustomType {
+};
+var UserDecrementedCount = class extends CustomType {
+};
+var ApiReturnedCat = class extends CustomType {
+  constructor(x0) {
+    super();
+    this[0] = x0;
+  }
+};
 function init2(_) {
   return [new Model2(0, new Some2(toList([]))), none()];
 }
@@ -3321,6 +3299,32 @@ function update(model, msg) {
     return [model, none()];
   }
 }
+
+// build/dev/javascript/lustre/lustre/element/html.mjs
+function div(attrs, children2) {
+  return element("div", attrs, children2);
+}
+function p(attrs, children2) {
+  return element("p", attrs, children2);
+}
+function img(attrs) {
+  return element("img", attrs, toList([]));
+}
+function button(attrs, children2) {
+  return element("button", attrs, children2);
+}
+
+// build/dev/javascript/lustre/lustre/event.mjs
+function on2(name, handler) {
+  return on(name, handler);
+}
+function on_click(msg) {
+  return on2("click", (_) => {
+    return new Ok(msg);
+  });
+}
+
+// build/dev/javascript/lingleam/view.mjs
 function cats_block(model) {
   let closure = (cat) => {
     return img(
@@ -3361,14 +3365,16 @@ function view(model) {
     ])
   );
 }
+
+// build/dev/javascript/lingleam/lingleam.mjs
 function main() {
   let app = application(init2, update, view);
   let $ = start2(app, "#app", void 0);
   if (!$.isOk()) {
     throw makeError(
       "let_assert",
-      "hello_lustre",
-      104,
+      "lingleam",
+      7,
       "main",
       "Pattern match failed, no pattern matched the value.",
       { value: $ }
