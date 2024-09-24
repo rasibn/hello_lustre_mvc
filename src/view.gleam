@@ -6,21 +6,20 @@ import lustre/element as el
 import lustre/element/html as h
 import lustre/event as e
 
-import model_controller.{
-  type Model, type Msg, UserDecrementedCount, UserIncrementedCount,
-}
+import model as m
+
 import webdata.{Loading, Some}
 
-pub fn view(model: Model) -> el.Element(Msg) {
+pub fn view(model: m.Model) -> el.Element(m.Msg) {
   h.div([], [
-    h.button([e.on_click(UserIncrementedCount)], [el.text("+")]),
+    h.button([e.on_click(m.UserIncrementedCount)], [el.text("+")]),
     el.text(model.count |> int.to_string),
-    h.button([e.on_click(UserDecrementedCount)], [el.text("-")]),
+    h.button([e.on_click(m.UserDecrementedCount)], [el.text("-")]),
     h.div([], cats_block(model)),
   ])
 }
 
-pub fn cats_block(model: Model) -> List(el.Element(Msg)) {
+pub fn cats_block(model: m.Model) -> List(el.Element(m.Msg)) {
   let closure = fn(cat) {
     h.img([a.class("w-64 h-64"), a.src("https://cataas.com/cat/" <> cat)])
   }
