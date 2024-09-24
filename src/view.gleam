@@ -8,7 +8,7 @@ import lustre/event as e
 
 import model as m
 
-import webdata.{Loading, Some}
+import library/webdata.{Loading, Some}
 
 pub fn view(model: m.Model) -> el.Element(m.Msg) {
   h.div([], [

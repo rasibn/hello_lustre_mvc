@@ -1,8 +1,8 @@
 import gleam/dynamic
+import library/webdata
 import lustre/effect
 import lustre_http
 import model as m
-import webdata
 
 pub fn init(_flags) -> #(m.Model, effect.Effect(m.Msg)) {
   #(m.Model(0, webdata.Some([])), effect.none())

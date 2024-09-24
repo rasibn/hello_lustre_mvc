@@ -3213,7 +3213,7 @@ function expect_json(decoder, to_msg) {
   );
 }
 
-// build/dev/javascript/lingleam/webdata.mjs
+// build/dev/javascript/lingleam/library/webdata.mjs
 var Some2 = class extends CustomType {
   constructor(x0) {
     super();
@@ -3245,7 +3245,7 @@ function unwrap3(web_data) {
   }
 }
 
-// build/dev/javascript/lingleam/model_controller.mjs
+// build/dev/javascript/lingleam/model.mjs
 var Model2 = class extends CustomType {
   constructor(count, cats) {
     super();
@@ -3263,6 +3263,8 @@ var ApiReturnedCat = class extends CustomType {
     this[0] = x0;
   }
 };
+
+// build/dev/javascript/lingleam/controller.mjs
 function init2(_) {
   return [new Model2(0, new Some2(toList([]))), none()];
 }

@@ -1,6 +1,6 @@
 import lustre_http
 
-import webdata
+import library/webdata
 
 pub type Model {
   Model(count: Int, cats: webdata.WebData(Cats))
