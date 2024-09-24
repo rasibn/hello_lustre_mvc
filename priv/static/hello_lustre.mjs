@@ -2610,6 +2610,9 @@ function start2(app, selector, flags) {
 function div(attrs, children2) {
   return element("div", attrs, children2);
 }
+function p(attrs, children2) {
+  return element("p", attrs, children2);
+}
 function img(attrs) {
   return element("img", attrs, toList([]));
 }
@@ -3232,6 +3235,18 @@ function expect_json(decoder, to_msg) {
 }
 
 // build/dev/javascript/hello_lustre/hello_lustre.mjs
+var Some2 = class extends CustomType {
+  constructor(x0) {
+    super();
+    this[0] = x0;
+  }
+};
+var Loading = class extends CustomType {
+  constructor(x0) {
+    super();
+    this[0] = x0;
+  }
+};
 var Model2 = class extends CustomType {
   constructor(count, cats) {
     super();
@@ -3249,8 +3264,26 @@ var ApiReturnedCat = class extends CustomType {
     this[0] = x0;
   }
 };
+function to_loading(web_data) {
+  if (web_data instanceof Some2) {
+    let thing = web_data[0];
+    return new Loading(thing);
+  } else {
+    let thing = web_data[0];
+    return new Loading(thing);
+  }
+}
+function unwrap3(web_data) {
+  if (web_data instanceof Some2) {
+    let thing = web_data[0];
+    return thing;
+  } else {
+    let thing = web_data[0];
+    return thing;
+  }
+}
 function init2(_) {
-  return [new Model2(0, toList([])), none()];
+  return [new Model2(0, new Some2(toList([]))), none()];
 }
 function get_cat() {
   let decoder = field("_id", string);
@@ -3264,17 +3297,48 @@ function get_cat() {
 }
 function update(model, msg) {
   if (msg instanceof UserIncrementedCount) {
-    return [model.withFields({ count: model.count + 1 }), get_cat()];
+    let cat = (() => {
+      let _pipe = model.cats;
+      return to_loading(_pipe);
+    })();
+    return [new Model2(model.count + 1, cat), get_cat()];
   } else if (msg instanceof UserDecrementedCount) {
     return [model.withFields({ count: model.count - 1 }), none()];
   } else if (msg instanceof ApiReturnedCat && msg[0].isOk()) {
     let cat = msg[0][0];
+    let cats = (() => {
+      let _pipe = model.cats;
+      return unwrap3(_pipe);
+    })();
     return [
-      model.withFields({ cats: prepend(cat, model.cats) }),
+      model.withFields({ cats: new Some2(prepend(cat, cats)) }),
       none()
     ];
   } else {
     return [model, none()];
+  }
+}
+function cats_block(model) {
+  let $ = model.cats;
+  if ($ instanceof Some2) {
+    let cats = $[0];
+    return map2(
+      cats,
+      (cat) => {
+        return img(toList([src("https://cataas.com/cat/" + cat)]));
+      }
+    );
+  } else {
+    let cats = $[0];
+    return prepend(
+      p(toList([]), toList([text("Loading...")])),
+      map2(
+        cats,
+        (cat) => {
+          return img(toList([src("https://cataas.com/cat/" + cat)]));
+        }
+      )
+    );
   }
 }
 function view(model) {
@@ -3295,15 +3359,7 @@ function view(model) {
         toList([on_click(new UserDecrementedCount())]),
         toList([text("-")])
       ),
-      div(
-        toList([]),
-        map2(
-          model.cats,
-          (cat) => {
-            return img(toList([src("https://cataas.com/cat/" + cat)]));
-          }
-        )
-      )
+      div(toList([]), cats_block(model))
     ])
   );
 }
@@ -3314,7 +3370,7 @@ function main() {
     throw makeError(
       "let_assert",
       "hello_lustre",
-      63,
+      106,
       "main",
       "Pattern match failed, no pattern matched the value.",
       { value: $ }
