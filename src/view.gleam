@@ -1,11 +1,9 @@
 import gleam/int
 import gleam/list
-
 import lustre/attribute as a
 import lustre/element as el
 import lustre/element/html as h
 import lustre/event as e
-
 import model as m
 
 import library/webdata.{Loading, Some}

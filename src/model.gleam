@@ -1,9 +1,8 @@
+import library/webdata
 import lustre_http
 
-import library/webdata
-
 pub type Model {
-  Model(count: Int, cats: webdata.WebData(Cats))
+  Model(count: Int, cats: webdata.Maybe(Cats))
 }
 
 pub type Cats =
