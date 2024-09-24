@@ -1,17 +1,17 @@
 import gleam/dynamic
-import library/webdata
+import library/webdata as w
 import lustre/effect
 import lustre_http
 import model as m
 
 pub fn init(_flags) -> #(m.Model, effect.Effect(m.Msg)) {
-  #(m.Model(0, webdata.Some([])), effect.none())
+  #(m.Model(0, w.Some([])), effect.none())
 }
 
 pub fn update(model: m.Model, msg: m.Msg) {
   case msg {
     m.UserIncrementedCount -> {
-      let cat = model.cats |> webdata.to_loading
+      let cat = model.cats |> w.to_loading
       #(m.Model(cats: cat, count: model.count + 1), get_cat())
     }
     m.UserDecrementedCount -> #(
@@ -19,8 +19,8 @@ pub fn update(model: m.Model, msg: m.Msg) {
       effect.none(),
     )
     m.ApiReturnedCat(Ok(cat)) -> {
-      let cats = model.cats |> webdata.unwrap
-      #(m.Model(..model, cats: webdata.Some([cat, ..cats])), effect.none())
+      let cats = model.cats |> w.unwrap
+      #(m.Model(..model, cats: w.Some([cat, ..cats])), effect.none())
     }
     m.ApiReturnedCat(Error(_)) -> #(model, effect.none())
   }

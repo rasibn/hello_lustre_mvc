@@ -3327,7 +3327,7 @@ function on_click(msg) {
 }
 
 // build/dev/javascript/lingleam/view.mjs
-function cats_block(model) {
+function will_cats(model) {
   let closure = (cat) => {
     return img(
       toList([class$("w-64 h-64"), src("https://cataas.com/cat/" + cat)])
@@ -3363,7 +3363,7 @@ function view(model) {
         toList([on_click(new UserDecrementedCount())]),
         toList([text("-")])
       ),
-      div(toList([]), cats_block(model))
+      div(toList([]), will_cats(model))
     ])
   );
 }
